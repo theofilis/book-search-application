@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Books API Example</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="css/app.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+        <div class="page-header">
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-md-3">
+                <div class="thumbnail">
+                    
+                </div>
+            </div>
+            <div id="content" class="col-sm-6 col-md-9">
+                <p class="lead" id="desc"></p>
+            </div>
+        </div>
+    </div>
+    <script src="js/jquery.js"></script>
+    <script>
+        function handleResponse(response) {
+            var item = response;
+            // in production code, item.text should have the HTML entities escaped.
+            $('.page-header').append("<h1>" + item.volumeInfo.title + "<small>" + ((item.volumeInfo.subtitle) ? item.volumeInfo.subtitle : "") + "</small></h1>");
+            $('.thumbnail').append('<img src="' + item.volumeInfo.imageLinks.large + '" alt="...">');
+            $('.thumbnail').append('<div class="caption"></div>');
+            $('.caption').append('<h4>' + item.volumeInfo.authors + '</h4>');
+            
+            $('#desc').append(item.volumeInfo.description);
+        }
+    </script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var id = getParameterByName('bookid');
+
+            function getBook(id) {
+                $("body").append('<script id="data" src="https://www.googleapis.com/books/v1/volumes/'+ id +'?callback=handleResponse&key=AIzaSyAFz5EbsHHyVbnPNeOKFfnt4d7SbwqxuBo"><\/script>');
+            }
+
+            function getParameterByName(name) {
+                name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+                var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                    results = regex.exec(location.search);
+                return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+            }
+
+            getBook(id);
+        });
+    </script>
+  </body>
+</html>

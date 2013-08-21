@@ -30,7 +30,7 @@
             for (var i = 0; i < response.items.length; i++) {
                 var item = response.items[i];
                 // in production code, item.text should have the HTML entities escaped.
-                document.getElementById("content").innerHTML += "<a href=\"#\" class=\"list-group-item\"><h4 class=\"list-group-item-heading\">" + item.volumeInfo.title + "</h4><p>" +item.volumeInfo.description + "</p></a>";
+                document.getElementById("content").innerHTML += "<a href=\"book.html?bookid=" + item.id + "\" class=\"list-group-item\"><h4 class=\"list-group-item-heading\">" + item.volumeInfo.title + "</h4><p>" +item.volumeInfo.description + "</p></a>";
             }
         }
     </script>
