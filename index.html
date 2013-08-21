@@ -20,6 +20,10 @@
             </div>
         </form>
         <div class="list-group" id="content"></div>
+        <ul class="pager">
+            <li class="previous"><a href="#">&larr; Previous</a></li>
+            <li class="next"><a href="#">Next &rarr;</a></li>
+        </ul>
     </div>
     <script>
         function handleResponse(response) {
@@ -33,7 +37,38 @@
     <script src="js/jquery.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
+            var page = getParameterByName('page');
+            var q = getParameterByName('q');
+
+            function getBooksList(q, page) {
+                var startIndex;
+                if (page) {
+                    startIndex = page * 10;
+                } else {
+                    startIndex = 0;
+                }
+                $('#content a').remove();
+                $("body").append('<script id="data" src="https://www.googleapis.com/books/v1/volumes?q=' + q + '&callback=handleResponse&key=AIzaSyAFz5EbsHHyVbnPNeOKFfnt4d7SbwqxuBo&startIndex=' + startIndex + '"><\/script>');
+            }
+
+
+            $('.next').click(function (e) {
+                e.preventDefault();
+                $('#data').remove();
+                page = page + 1;
+                getBooksList(q, page);
+            });
+
+            $('.previous').click(function (e) {
+                e.preventDefault();
+                $('#data').remove();
+                if (page > 0) {
+                    page = page - 1;
+                }
+                getBooksList(q, page);
+            });
+
             function getParameterByName(name) {
                 name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
                 var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -41,8 +76,7 @@
                 return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
             }
 
-            var q = getParameterByName('q')
-            $("body").append( '<script src="https://www.googleapis.com/books/v1/volumes?q=' + q + '&callback=handleResponse&key=AIzaSyAFz5EbsHHyVbnPNeOKFfnt4d7SbwqxuBo"><\/script>' );
+            getBooksList(q, page);
         });
     </script>
   </body>
