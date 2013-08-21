@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Books API Example</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+      <link href="css/app.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+        <form action="" class="form-horizontal"  role="form" method="get">
+            <div class="form-group">
+                <div class="col-lg-10">
+                    <div class="input-group">
+                        <input class="form-control" id="q" name="q" placeholder="Harry Potter!!">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit">Go!</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="list-group" id="content"></div>
+    </div>
+    <script>
+        function handleResponse(response) {
+            for (var i = 0; i < response.items.length; i++) {
+                var item = response.items[i];
+                // in production code, item.text should have the HTML entities escaped.
+                document.getElementById("content").innerHTML += "<a href=\"#\" class=\"list-group-item\"><h4 class=\"list-group-item-heading\">" + item.volumeInfo.title + "</h4><p>" +item.volumeInfo.description + "</p></a>";
+            }
+        }
+    </script>
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            function getParameterByName(name) {
+                name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+                var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                    results = regex.exec(location.search);
+                return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+            }
+
+            var q = getParameterByName('q')
+            $("body").append( '<script src="https://www.googleapis.com/books/v1/volumes?q=' + q + '&callback=handleResponse&key=AIzaSyAFz5EbsHHyVbnPNeOKFfnt4d7SbwqxuBo"><\/script>' );
+        });
+    </script>
+  </body>
+</html>
