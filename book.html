@@ -69,7 +69,7 @@
               </div>
             </div>
 			<ul class="pager">
-				<li class="next"><a href="index.html">Back</a></li>
+				<li class="next"><a id="back" href="index.html">Back</a></li>
 			</ul>
 			<!-- accordion if you want, try it!! 
             <div class="panel-group" id="accordion">                
@@ -101,27 +101,34 @@
       function handleResponse(response) {
         var item = response;
         var authors = item.volumeInfo.authors;
-		var publishedDate = moment(item.volumeInfo.publishedDate).format("dddd, MMMM Do YYYY");
+		    var publishedDate = moment(item.volumeInfo.publishedDate).format("dddd, MMMM Do YYYY");
         // in production code, item.text should have the HTML entities escaped.
         $('.page-header').append("<h1>" + item.volumeInfo.title + "&nbsp;&nbsp;&nbsp;&nbsp;<small>" + ((item.volumeInfo.subtitle) ? item.volumeInfo.subtitle : "") + "</small></h1>");
         $('.thumbnail').append('<img src="' + item.volumeInfo.imageLinks.large + '" alt="...">');
         $('.thumbnail').append('<div class="caption"></div>');
         $('.caption').append('<ul></ul>');
+    
         for(var i=0;i<authors.length;i++){
           $('.caption ul').append('<li>'+authors[i]+'</li>');
         }
         
-		$('#category').append(item.volumeInfo.categories[0]);
-		$('#rating').append(item.volumeInfo.averageRating+'/5 from '+item.volumeInfo.ratingsCount+' readers');
-		$('#publisher').append(item.volumeInfo.publisher); 
-		$('#publishedDate').append(publishedDate); // e.g. Sunday, February 14th 2010.
-		$('#description').append(item.volumeInfo.description);
+    		$('#category').append(item.volumeInfo.categories[0]);
+    		$('#rating').append(item.volumeInfo.averageRating+'/5 from '+item.volumeInfo.ratingsCount+' readers');
+    		$('#publisher').append(item.volumeInfo.publisher); 
+    		$('#publishedDate').append(publishedDate); // e.g. Sunday, February 14th 2010.
+    		$('#description').append(item.volumeInfo.description);
       }
     </script>
     <script>
       $(document).ready(function () {
         var id = getParameterByName('bookid');
         
+        $('#back').click(function (e) {
+          e.preventDefault();
+
+          window.history.back(-1);
+        });
+
         function getBook(id) {
           $("body").append('<script id="data" src="https://www.googleapis.com/books/v1/volumes/'+ id +'?callback=handleResponse&key=AIzaSyAFz5EbsHHyVbnPNeOKFfnt4d7SbwqxuBo"><\/script>');
         }
@@ -134,8 +141,7 @@
         }
         
         getBook(id);
-      }
-                       );
+      });
     </script>
   </body>
 </html>
