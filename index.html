@@ -6,10 +6,13 @@
       <link href="css/app.css" rel="stylesheet">
   </head>
   <body>
-    <div class="container">
+     <div class="container">
+			<div class="jumbotron">
+                <h2 style="text-align:center;"></h2>
+			</div>
         <form action="" class="form-horizontal"  role="form" method="get">
             <div class="form-group">
-                <div class="col-lg-10">
+                <div class="col-lg-12">
                     <div class="input-group">
                         <input class="form-control" id="q" name="q" placeholder="Harry Potter!!">
                         <span class="input-group-btn">
@@ -24,13 +27,14 @@
             <li class="previous"><a href="#">&larr; Previous</a></li>
             <li class="next"><a href="#">Next &rarr;</a></li>
         </ul>
-    </div>
+	</div>
     <script>
         function handleResponse(response) {
             for (var i = 0; i < response.items.length; i++) {
                 var item = response.items[i];
                 document.getElementById("content").innerHTML += "<a href=\"book.html?bookid=" + item.id + "\" class=\"list-group-item\"><h4 class=\"list-group-item-heading\">" + item.volumeInfo.title + "</h4><p>" +item.volumeInfo.description + "</p></a>";
             }
+		
         }
     </script>
     <script src="js/jquery.js"></script>
