@@ -35,7 +35,9 @@
                   Rating
                 </h3>
               </div>
-              <div id="rating" class="panel-body">
+              <div class="panel-body">
+                <div id="rating" ></div>
+                <div id="hint"></div>
               </div>
             </div>
 			
@@ -91,13 +93,13 @@
         </div>
       </div>
     </div>
-    <script src="js/jquery.js">
-    </script>
-	<script src="js/bootstrap.min.js">
-    </script>
-	<script src="js/moment.min.js">
-    </script>
-    <script>
+
+    <!-- Script session -->
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/jquery.raty.min.js"></script>
+	  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+	  <script type="text/javascript" src="js/moment.min.js"></script>
+    <script type="text/javascript">
       function handleResponse(response) {
         var item = response;
         var authors = item.volumeInfo.authors;
@@ -113,7 +115,8 @@
         }
         
     		$('#category').append(item.volumeInfo.categories[0]);
-    		$('#rating').append(item.volumeInfo.averageRating+'/5 from '+item.volumeInfo.ratingsCount+' readers');
+        $('#rating').raty({ readOnly: true, score: item.volumeInfo.averageRating, target: '#hint'});
+    		$('#hint').append(' from '+item.volumeInfo.ratingsCount+' readers');
     		$('#publisher').append(item.volumeInfo.publisher); 
     		$('#publishedDate').append(publishedDate); // e.g. Sunday, February 14th 2010.
     		$('#description').append(item.volumeInfo.description);

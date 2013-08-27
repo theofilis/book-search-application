@@ -12,3 +12,11 @@ body {
 .next a{
 	width: 103px;
 }
+
+div#rating {
+	display: inline-block;
+}
+
+div#hint {
+	display: inline-block;
+}
