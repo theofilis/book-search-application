@@ -1,0 +1,22 @@
+body {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.container {
+    width: 900px;
+ }
+.jumbotron{
+	margin-bottom: 20px;
+	background-color: white;
+}
+.next a{
+	width: 103px;
+}
+
+div#rating {
+	display: inline-block;
+}
+
+div#hint {
+	display: inline-block;
+}
