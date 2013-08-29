@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+      Books API Example
+    </title>
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="css/app.css" rel="stylesheet">
+	<link href="css/book.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <div class="page-header">
+      </div>
+      <div class="row">
+        <div class="col-sm-6 col-md-3">
+          <div class="thumbnail">
+            
+          </div>
+        </div>
+        <div id="content" class="col-sm-6 col-md-9">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">
+                  Category
+                </h3>
+              </div>
+              <div id="category" class="panel-body">
+              </div>
+            </div>
+            
+		 <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">
+                  Rating
+                </h3>
+              </div>
+              <div class="panel-body">
+                <div id="rating" ></div>
+                <div id="hint"></div>
+              </div>
+            </div>
+			
+		 <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">
+                  Publisher
+                </h3>
+              </div>
+              <div id="publisher" class="panel-body">
+              </div>
+            </div>
+			
+			 <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">
+                  Date Published
+                </h3>
+              </div>
+              <div id="publishedDate" class="panel-body">
+              </div>
+            </div>
+			
+			 <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">
+                  Description
+                </h3>
+              </div>
+              <div id="description" class="panel-body">
+              </div>
+            </div>
+			<ul class="pager">
+				<li class="next"><a id="back" href="index.html">Back</a></li>
+			</ul>
+			<!-- accordion if you want, try it!! 
+            <div class="panel-group" id="accordion">                
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                      Description
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapseThree" class="panel-collapse collapse" style="height: 0px;">
+                  <div id="description" class="panel-body">
+                  </div>
+                </div>
+              </div>
+            </div>
+			-->
+        </div>
+      </div>
+    </div>
+
+    <!-- Script session -->
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/jquery.raty.min.js"></script>
+	  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+	  <script type="text/javascript" src="js/moment.min.js"></script>
+    <script type="text/javascript">
+      function handleResponse(response) {
+        var item = response;
+        var authors = item.volumeInfo.authors;
+		    var publishedDate = moment(item.volumeInfo.publishedDate).format("dddd, MMMM Do YYYY");
+        // in production code, item.text should have the HTML entities escaped.
+        $('.page-header').append("<h1>" + item.volumeInfo.title + "&nbsp;&nbsp;&nbsp;&nbsp;<small>" + ((item.volumeInfo.subtitle) ? item.volumeInfo.subtitle : "") + "</small></h1>");
+        $('.thumbnail').append('<img src="' + item.volumeInfo.imageLinks.large + '" alt="...">');
+        $('.thumbnail').append('<div class="caption"></div>');
+        $('.caption').append('<ul></ul>');
+    
+        for(var i=0;i<authors.length;i++){
+          $('.caption ul').append('<li>'+authors[i]+'</li>');
+        }
+        
+    		$('#category').append(item.volumeInfo.categories[0]);
+        $('#rating').raty({ readOnly: true, score: item.volumeInfo.averageRating, target: '#hint'});
+    		$('#hint').append(' from '+item.volumeInfo.ratingsCount+' readers');
+    		$('#publisher').append(item.volumeInfo.publisher); 
+    		$('#publishedDate').append(publishedDate); // e.g. Sunday, February 14th 2010.
+    		$('#description').append(item.volumeInfo.description);
+      }
+    </script>
+    <script>
+      $(document).ready(function () {
+        var id = getParameterByName('bookid');
+        
+        $('#back').click(function (e) {
+          e.preventDefault();
+
+          window.history.back(-1);
+        });
+
+        function getBook(id) {
+          $("body").append('<script id="data" src="https://www.googleapis.com/books/v1/volumes/'+ id +'?callback=handleResponse&key=AIzaSyAFz5EbsHHyVbnPNeOKFfnt4d7SbwqxuBo"><\/script>');
+        }
+        
+        function getParameterByName(name) {
+          name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+          var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+              results = regex.exec(location.search);
+          return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+        
+        getBook(id);
+      });
+    </script>
+  </body>
+</html>
