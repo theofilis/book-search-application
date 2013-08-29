@@ -30,15 +30,24 @@
 	</div>
     <script>
         function handleResponse(response) {
+            if(!response.items) {
+                return;
+            }
+
             for (var i = 0; i < response.items.length; i++) {
                 var item = response.items[i];
-                document.getElementById("content").innerHTML += "<a href=\"book.html?bookid=" + item.id + "\" class=\"list-group-item\"><h4 class=\"list-group-item-heading\">" + item.volumeInfo.title + "</h4><p>" +item.volumeInfo.description + "</p></a>";
+                document.getElementById("content").innerHTML += "<a href=\"book.html?bookid=" + item.id + "\" class=\"list-group-item\"><h4 class=\"list-group-item-heading\">" + item.volumeInfo.title + "</h4><p class=\"trunc\">" +item.volumeInfo.description + "</p></a>";
+
+                $('.trunc').succinct({
+                    size: 250
+                });
             }
-		
         }
     </script>
     <script src="js/jquery.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.succinct.min.js"></script>
+    
     <script>
         $(document).ready(function () {
             var page = getParameterByName('page');
@@ -54,7 +63,6 @@
                 $('#content a').remove();
                 $("body").append('<script id="data" src="https://www.googleapis.com/books/v1/volumes?q=' + q + '&callback=handleResponse&key=AIzaSyAFz5EbsHHyVbnPNeOKFfnt4d7SbwqxuBo&startIndex=' + startIndex + '"><\/script>');
             }
-
 
             $('.next').click(function (e) {
                 e.preventDefault();
