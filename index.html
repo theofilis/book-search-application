@@ -24,20 +24,25 @@
         </form>
         <div class="list-group" id="content"></div>
         <ul class="pager">
-            <li class="previous"><a href="#">&larr; Previous</a></li>
-            <li class="next"><a href="#">Next &rarr;</a></li>
+			<!-- initialize previous and next elements to invisible -->
+            <li class="previous" style="visibility:hidden;"><a href="#">&larr; Previous</a></li> 
+            <li class="next" style="visibility:hidden;"><a href="#">Next &rarr;</a></li>
         </ul>
 	</div>
     <script>
         function handleResponse(response) {
             if(!response.items) {
-                return;
+				return;
             }
-
+			if(response.items.length==10){
+				$(".next").css("visibility","visible");
+			}
+			else{
+				$(".next").css("visibility","hidden");
+			}
             for (var i = 0; i < response.items.length; i++) {
                 var item = response.items[i];
                 document.getElementById("content").innerHTML += "<a href=\"book.html?bookid=" + item.id + "\" class=\"list-group-item\"><h4 class=\"list-group-item-heading\">" + item.volumeInfo.title + "</h4><p class=\"trunc\">" + ((item.volumeInfo.description) ? item.volumeInfo.description : "") + "</p></a>";
-
                 $('.trunc').succinct({
                     size: 250
                 });
@@ -50,32 +55,33 @@
     
     <script>
         $(document).ready(function () {
-            var page = getParameterByName('page');
+            var page = Number(getParameterByName('page'));
             var q = getParameterByName('q');
-
+			
             function getBooksList(q, page) {
-                var startIndex;
-                if (page) {
-                    startIndex = page * 10;
-                } else {
-                    startIndex = 0;
-                }
+                var startIndex= page ? page * 10 : 0 ;
                 $('#content a').remove();
-                $("body").append('<script id="data" src="https://www.googleapis.com/books/v1/volumes?q=' + q + '&callback=handleResponse&key=AIzaSyAFz5EbsHHyVbnPNeOKFfnt4d7SbwqxuBo&startIndex=' + startIndex + '"><\/script>');
-            }
+                $('body').append('<script id="data" src="https://www.googleapis.com/books/v1/volumes?q=' + q + '&callback=handleResponse&key=AIzaSyAFz5EbsHHyVbnPNeOKFfnt4d7SbwqxuBo&startIndex=' + startIndex + '"><\/script>');
+			}
 
             $('.next').click(function (e) {
                 e.preventDefault();
                 $('#data').remove();
                 page = page + 1;
+				if(page > 0){
+					$(".previous").css("visibility","visible");
+				}
                 getBooksList(q, page);
             });
 
             $('.previous').click(function (e) {
                 e.preventDefault();
                 $('#data').remove();
-                if (page > 0) {
+				if (page > 0) {
                     page = page - 1;
+					if(page == 0){
+						$(".previous").css("visibility","hidden");
+					}
                 }
                 getBooksList(q, page);
             });
