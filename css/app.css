@@ -4,11 +4,12 @@
 }
 
 .jumbotron h1 {font-family: gutenberg;}
-.jumbotron a {color: black;}
+.jumbotron a {color: #475F77;}
 .jumbotron a:hover {text-decoration: none;}
 .jumbotron a:visited {text-decoration: none}
 
 body {
+  background-color: #DCDDD8;
   padding-top: 20px;
   padding-bottom: 20px;
 }
