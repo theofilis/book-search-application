@@ -1,7 +1,8 @@
 BookSearchApplication
 =====================
 
-A search book application with Google's Book API. 
+A client-side javascript book search web application that is based on Google's Book API.  
+No server is needed to run the application.
 
 ## References
 1. [Google Book Api](https://developers.google.com/books/docs/v1/using)

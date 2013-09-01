@@ -51,7 +51,8 @@
                 var item = response.items[i];
 
                 var book_title = '<h4 class="list-group-item-heading">' + item.volumeInfo.title + '</h4>';
-                var book_img   = '<div class="col-lg-2"><img src="' + ((item.volumeInfo.imageLinks) ? item.volumeInfo.imageLinks.thumbnail : 'img/book.png') + '"/></div>';
+
+                var book_img   = '<div class="col-lg-2"><img style="height: 204px; width:128px;" src="' + ((item.volumeInfo.imageLinks) ? item.volumeInfo.imageLinks.thumbnail : 'img/book.png') + '"/></div>';
                 var book_desc  = '<p class="trunc">' + ((item.volumeInfo.description) ? item.volumeInfo.description : '') + '</p>';
  
                 var list_body = '<div class="col-lg-10">' + book_title + book_desc + '</div>';
