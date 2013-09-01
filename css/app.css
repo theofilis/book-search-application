@@ -1,3 +1,13 @@
+@font-face {
+	font-family: gutenberg;
+	src: url(../font/Gutenberg.ttf);
+}
+
+.jumbotron h1 {font-family: gutenberg;}
+.jumbotron a {color: black;}
+.jumbotron a:hover {text-decoration: none;}
+.jumbotron a:visited {text-decoration: none}
+
 body {
   padding-top: 20px;
   padding-bottom: 20px;
