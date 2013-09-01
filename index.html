@@ -7,9 +7,9 @@
   </head>
   <body>
      <div class="container">
-			<div class="jumbotron">
+            <div class="jumbotron">
                 <h2 style="text-align:center;"></h2>
-			</div>
+            </div>
         <form action="" class="form-horizontal"  role="form" method="get">
             <div class="form-group">
                 <div class="col-lg-12">
@@ -24,27 +24,37 @@
         </form>
         <div class="list-group" id="content"></div>
         <ul class="pager">
-			<!-- initialize previous and next elements to invisible -->
+            <!-- initialize previous and next elements to invisible -->
             <li class="previous" style="visibility:hidden;"><a href="#">&larr; Previous</a></li> 
             <li class="next" style="visibility:hidden;"><a href="#">Next &rarr;</a></li>
         </ul>
-	</div>
+    </div>
     <script>
         function handleResponse(response) {
             if(!response.items) {
-				return;
+                return;
             }
-			if(response.items.length==10){
-				$(".next").css("visibility","visible");
-			}
-			else{
-				$(".next").css("visibility","hidden");
-			}
+            if(response.items.length==10){
+                $(".next").css("visibility","visible");
+            }
+            else{
+                $(".next").css("visibility","hidden");
+            }
             for (var i = 0; i < response.items.length; i++) {
                 var item = response.items[i];
-                document.getElementById("content").innerHTML += "<a href=\"book.html?bookid=" + item.id + "\" class=\"list-group-item\"><h4 class=\"list-group-item-heading\">" + item.volumeInfo.title + "</h4><p class=\"trunc\">" + ((item.volumeInfo.description) ? item.volumeInfo.description : "") + "</p></a>";
+
+                var book_title = '<h4 class="list-group-item-heading">' + item.volumeInfo.title + '</h4>';
+                var book_img   = '<div class="col-lg-2"><img src="' + ((item.volumeInfo.imageLinks.thumbnail) ? item.volumeInfo.imageLinks.thumbnail : 'img/book.jpg') + '"/></div>';
+                var book_desc  = '<p class="trunc">' + ((item.volumeInfo.description) ? item.volumeInfo.description : '') + '</p>';
+ 
+                var list_body = '<div class="col-lg-10">' + book_title + book_desc + '</div>';
+
+                var list_item = '<a href="book.html?bookid=' + item.id + '" class="list-group-item"><div class="row">' + book_img + list_body + '</div></a>';
+
+                document.getElementById("content").innerHTML += list_item;
+                
                 $('.trunc').succinct({
-                    size: 250
+                    size: 350
                 });
             }
         }
@@ -57,31 +67,31 @@
         $(document).ready(function () {
             var page = Number(getParameterByName('page'));
             var q = getParameterByName('q');
-			
+            
             function getBooksList(q, page) {
                 var startIndex= page ? page * 10 : 0 ;
                 $('#content a').remove();
                 $('body').append('<script id="data" src="https://www.googleapis.com/books/v1/volumes?q=' + q + '&callback=handleResponse&key=AIzaSyAFz5EbsHHyVbnPNeOKFfnt4d7SbwqxuBo&startIndex=' + startIndex + '"><\/script>');
-			}
+            }
 
             $('.next').click(function (e) {
                 e.preventDefault();
                 $('#data').remove();
                 page = page + 1;
-				if(page > 0){
-					$(".previous").css("visibility","visible");
-				}
+                if(page > 0){
+                    $(".previous").css("visibility","visible");
+                }
                 getBooksList(q, page);
             });
 
             $('.previous').click(function (e) {
                 e.preventDefault();
                 $('#data').remove();
-				if (page > 0) {
+                if (page > 0) {
                     page = page - 1;
-					if(page == 0){
-						$(".previous").css("visibility","hidden");
-					}
+                    if(page == 0){
+                        $(".previous").css("visibility","hidden");
+                    }
                 }
                 getBooksList(q, page);
             });
