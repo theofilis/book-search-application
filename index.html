@@ -3,12 +3,12 @@
   <head>
     <title>Index | BooksSearch</title>
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-      <link href="css/app.css" rel="stylesheet">
+    <link href="css/app.css" rel="stylesheet">
   </head>
   <body>
      <div class="container">
             <div class="jumbotron">
-                <h2 style="text-align:center;"></h2>
+                <a href="index.html"><h1 style="text-align:center;">BookSearch</h1></a>
             </div>
         <form action="" class="form-horizontal"  role="form" method="get">
             <div class="form-group">
@@ -29,17 +29,24 @@
             <li class="next" style="visibility:hidden;"><a href="#">Next &rarr;</a></li>
         </ul>
     </div>
+    <div class="footer">
+        <div class="container">
+            <p>Copyright BookShare &copy;</p>
+        </div>
+    </div>
     <script>
         function handleResponse(response) {
             if(!response.items) {
-                return;
+				return;
             }
+
             if(response.items.length==10){
                 $(".next").css("visibility","visible");
             }
             else{
                 $(".next").css("visibility","hidden");
             }
+
             for (var i = 0; i < response.items.length; i++) {
                 var item = response.items[i];
 
@@ -70,6 +77,7 @@
             
             function getBooksList(q, page) {
                 var startIndex= page ? page * 10 : 0 ;
+                $('#q').val(q);
                 $('#content a').remove();
                 $('body').append('<script id="data" src="https://www.googleapis.com/books/v1/volumes?q=' + q + '&callback=handleResponse&key=AIzaSyAFz5EbsHHyVbnPNeOKFfnt4d7SbwqxuBo&startIndex=' + startIndex + '"><\/script>');
             }
@@ -87,7 +95,7 @@
             $('.previous').click(function (e) {
                 e.preventDefault();
                 $('#data').remove();
-                if (page > 0) {
+				if (page > 0) {
                     page = page - 1;
                     if(page == 0){
                         $(".previous").css("visibility","hidden");
