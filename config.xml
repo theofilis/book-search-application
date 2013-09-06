@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+    <widget xmlns = "http://www.w3.org/ns/widgets"
+        xmlns:gap = "http://phonegap.com/ns/1.0"
+        id        = "gr.theofilis.booksearch"
+        versionCode="0.1" 
+        version   = "0.1">
+
+    <!-- versionCode is optional and Android only -->
+
+    <name>Book Search Application</name>
+
+    <description>
+        Searchin book application
+    </description>
+
+    <author href="https://github.com/theofilis/" email="theofilis.g@gmail.com">
+        George Theofilis
+    </author>
+
+</widget>
